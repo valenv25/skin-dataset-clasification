@@ -1,4 +1,4 @@
-# skin-dataset-clasification  
+# skin-dataset-classification  
 
 Para generar el entorno
 
