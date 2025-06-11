@@ -50,9 +50,9 @@ starlette==0.46.2
 stringzilla==3.12.5
 tensorboard==2.19.0
 tensorboard-data-server==0.7.2
-torch==2.7.0+cpu
-torchaudio==2.7.0+cpu
-torchvision==0.22.0+cpu
+torch==2.7.0
+torchaudio==2.7.0
+torchvision==0.22.0
 tqdm==4.67.1
 typing-inspection==0.4.0
 uvicorn==0.34.2
