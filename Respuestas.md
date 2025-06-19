@@ -1,4 +1,4 @@
-# Preguntas sobre el ejemplo de clasificación de imágenes con PyTorch y MLP
+# Respuestas sobre el ejemplo de clasificación de imágenes con PyTorch y MLP
 
 ## 1. Dataset y Preprocesamiento
 
@@ -90,34 +90,34 @@
   - Porque las CNN capturan patrones espaciales y locales, y son más eficientes, mientras que una MLP trata todos los píxeles como independientes.
 - ¿Qué problema podríamos tener si entrenamos este modelo con muy pocas imágenes por clase?
   - Riesgo de sobreajuste (overfitting) y mala generalización. Se podría usar data augmentation o preentrenamiento.
-	```python
-	from collections import defaultdict
-	import numpy as np
+    ```python
+    from collections import defaultdict
+    import numpy as np
 
-	def undersample_dataset(dataset, max_per_class=5):
-		class_indices = defaultdict(list)
-		for idx, label in enumerate(dataset.labels):
-			class_indices[label].append(idx)
-		selected_indices = []
-		for indices in class_indices.values():
-			np.random.shuffle(indices)
-			selected_indices.extend(indices[:max_per_class])
-		return torch.utils.data.Subset(dataset, selected_indices)
+    def undersample_dataset(dataset, max_per_class=5):
+    	class_indices = defaultdict(list)
+    	for idx, label in enumerate(dataset.labels):
+    		class_indices[label].append(idx)
+    	selected_indices = []
+    	for indices in class_indices.values():
+    		np.random.shuffle(indices)
+    		selected_indices.extend(indices[:max_per_class])
+    	return torch.utils.data.Subset(dataset, selected_indices)
 
-	# Para pocas imágenes por clase:
-	train_dataset_small = undersample_dataset(train_dataset, max_per_class=5)
-	train_loader_small = DataLoader(train_dataset_small, batch_size=batch_size, shuffle=True)
-	```
+    # Para pocas imágenes por clase:
+    train_dataset_small = undersample_dataset(train_dataset, max_per_class=5)
+    train_loader_small = DataLoader(train_dataset_small, batch_size=batch_size, shuffle=True)
+    ```
 - ¿Cómo podríamos adaptar este pipeline para imágenes en escala de grises?
   - Cambiar la carga de imágenes a un solo canal modificando `in_channels` (ajustando el `input_size` del modelo) y adaptar la normalización:
     ```python
-	# En CustomImageDataset.__getitem__:
-	image = np.array(Image.open(self.image_paths[idx]).convert("L"))  # "L" para escala de grises
+    # En CustomImageDataset.__getitem__:
+    image = np.array(Image.open(self.image_paths[idx]).convert("L"))  # "L" para escala de grises
 
-	# En el modelo:
-	input_size = 64*64*1  # Cambio a 1 canal
+    # En el modelo:
+    input_size = 64*64*1  # Cambio a 1 canal
 
-	# En las transformaciones (train, val):
+    # En las transformaciones (train, val):
     A.Normalize(mean=(0.5,), std=(0.5,))
     ```
 
